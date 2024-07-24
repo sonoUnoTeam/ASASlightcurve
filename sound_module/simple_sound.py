@@ -232,10 +232,10 @@ class reproductorRaw (object):
             value = np.log10(100*value+1)/2 #This is to achieve reasoable values
             print(value)
         if self.mapping == 'frequency':
-            freq = self.max_freq*value+self.min_freq
+            freq = (self.max_freq-self.min_freq)*value+self.min_freq
             vol = self.volume
         else:
-            vol = self.max_volume*value+self.min_volume
+            vol = (self.max_volume-self.min_volume)*value+self.min_volume
             freq = self.fixed_freq
         self.env = self._adsr_envelope()
         f = self.env*vol*2**14*self.generate_waveform(freq)
@@ -247,10 +247,10 @@ class reproductorRaw (object):
             value = np.log10(100*value+1)/2 #This is to achieve reasoable values
             print(value)
         if self.mapping == 'frequency':
-            freq = self.max_freq*value+self.min_freq
+            freq = (self.max_freq-self.min_freq)*value+self.min_freq
             vol = self.volume
         else:
-            vol = self.max_volume*value+self.min_volume
+            vol = (self.max_volume-self.min_volume)*value+self.min_volume
             freq = self.fixed_freq
         self.env = self._adsr_envelope()
         f = self.env*vol*2**14*self.generate_waveform(freq)
@@ -334,7 +334,7 @@ class simpleSound(object):
             for x in range (init, data_x.size):
                 #print('en el for inicio')
                 #print(data_y[x])
-                freq = rep.max_freq*data_y[x]+self.reproductor.min_freq
+                freq = (rep.max_freq-rep.min_freq)*data_y[x]+rep.min_freq
                 #print('en el for aqui')
                 self.env = rep._adsr_envelope()
                 #print(self.env.get_adsr())
@@ -342,22 +342,6 @@ class simpleSound(object):
                     delta_t = 1)
                 s = pygame.mixer.Sound(f.astype('int16'))
                 sound_buffer += s.get_raw()
-                #localTrack.add_notes(Note(int((dataY[x]*rango)+offset)))
-                #print('en el for final')
-            
-            """for data in data_y:
-                #print('en el for inicio')
-                #print(data_y[x])
-                freq = rep.max_freq*data+self.reproductor.min_freq
-                #print('en el for aqui')
-                self.env = rep._adsr_envelope()
-                #print(self.env.get_adsr())
-                f = self.env*rep.volume*2**15*rep.generate_waveform(freq,
-                    delta_t = 1)
-                s = pygame.mixer.Sound(f.astype('int16'))
-                sound_buffer += s.get_raw()
-                #localTrack.add_notes(Note(int((dataY[x]*rango)+offset)))
-                #print('en el for final')"""
 
             with wave.open(path,'wb') as output_file:
                 output_file.setframerate(rep.f_s)
@@ -420,7 +404,7 @@ class simpleSound(object):
             sound_buffer=b''
 
             for x in range (init, data_x.size):
-                freq = rep.max_freq*y[x]+self.reproductor.min_freq
+                freq = (rep.max_freq-rep.min_freq)*y[x]+rep.min_freq
                 self.env = rep._adsr_envelope()
                 f = self.env*rep.volume*2**15*rep.generate_waveform(freq,
                     delta_t = 1)
@@ -460,7 +444,7 @@ class simpleSound(object):
         for x in range (init, data_x.size):
             # y1
             rep.set_waveform('sine')
-            freq = rep.max_freq*data_y1[x]+self.reproductor.min_freq
+            freq = (rep.max_freq-rep.min_freq)*data_y1[x]+rep.min_freq
             self.env = rep._adsr_envelope()
             f = self.env*rep.volume*2**15*rep.generate_waveform(freq,
                 delta_t = 1)
@@ -468,7 +452,7 @@ class simpleSound(object):
             sound_buffer += s.get_raw()
             #y2
             rep.set_waveform('flute')
-            freq = rep.max_freq*data_y2[x]+self.reproductor.min_freq
+            freq = (rep.max_freq-rep.min_freq)*data_y2[x]+rep.min_freq
             self.env = rep._adsr_envelope()
             f = self.env*rep.volume*2**15*rep.generate_waveform(freq,
                 delta_t = 1)
@@ -514,7 +498,7 @@ class simpleSound(object):
         for x in range (init, data_x.size):
             # y1
             rep.set_waveform('sine')
-            freq = rep.max_freq*data_y1[x]+self.reproductor.min_freq
+            freq = (rep.max_freq-rep.min_freq)*data_y1[x]+rep.min_freq
             self.env = rep._adsr_envelope()
             f = self.env*rep.volume*2**15*rep.generate_waveform(freq,
                 delta_t = 1)
@@ -522,7 +506,7 @@ class simpleSound(object):
             sound_buffer += s.get_raw()
             #y2
             rep.set_waveform('flute')
-            freq = rep.max_freq*data_y2[x]+self.reproductor.min_freq
+            freq = (rep.max_freq-rep.min_freq)*data_y2[x]+rep.min_freq
             self.env = rep._adsr_envelope()
             f = self.env*rep.volume*2**15*rep.generate_waveform(freq,
                 delta_t = 1)
