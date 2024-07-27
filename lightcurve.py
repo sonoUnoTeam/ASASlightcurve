@@ -21,7 +21,7 @@ _simplesound.reproductor.set_waveform('sine')  # piano; sine
 _simplesound.reproductor.set_time_base(0.03)
 _simplesound.reproductor.set_min_freq(380)
 _simplesound.reproductor.set_max_freq(800)
-
+# Parser for command line inputs
 parser = argparse.ArgumentParser()
 # Receive the directory path from the arguments
 parser.add_argument("-d", "--directory", type=str,
@@ -33,11 +33,10 @@ parser.add_argument("-s", "--star-type", type=str,
 args = parser.parse_args()
 path = args.directory
 starType = args.star_type
-
+# Read the data as DataFrame
 data = pd.read_csv(path)
 toplot = data.copy()
-
-# Constantes de algunas estrellas variables
+# Constants of some selected variable stars
 if starType == 'CGCas':
     """https://asas-sn.osu.edu/variables/753bdd73-38a7-5e43-b6c0-063292c7f28d"""
     periodo = 4.3652815
@@ -66,25 +65,22 @@ elif starType == 'HWPup':
     t0 = 2457786.63153
 else:
     print('Error en el tipo de estrella.')
-
+# Math to generate the phase diagram
 toplot['hjd'] = ((data['hjd'] - t0) / periodo)
-toplot['hjd'] = (toplot['hjd'] - toplot['hjd'].astype(int))# + BPRP + 1
-
+toplot['hjd'] = (toplot['hjd'] - toplot['hjd'].astype(int))
+# Setting the phase from 0 to 1 and reorganizing the table
 count = 0
 for i in toplot['hjd']:
     if i < 0:
         toplot.loc[count,'hjd'] = i + 1
     count = count + 1
-
 toplot['hjd'] = toplot['hjd'] + BPRP
-
 count = 0
 for i in toplot['hjd']:
     if i > 1:
         toplot.loc[count,'hjd'] = i - 1
     count = count + 1
 toplotlength = count
-
 for i in toplot['hjd']:
     toplot.loc[count,'hjd'] = i + 1
     toplot.loc[count, 'camera'] = toplot.loc[count-toplotlength, 'camera']
@@ -93,7 +89,7 @@ for i in toplot['hjd']:
     toplot.loc[count, 'flux'] = toplot.loc[count-toplotlength, 'flux']
     toplot.loc[count, 'flux_err'] = toplot.loc[count-toplotlength, 'flux_err']
     count = count + 1
-
+# Separate the array by camera (the camera name depends on the star type)
 groups = toplot.groupby('camera')
 if starType == 'CGCas':
     bd_toplot = groups.get_group('bd')
@@ -103,13 +99,11 @@ elif starType == 'RWPhe':
     bf_toplot = groups.get_group('bf') 
 else:
     print('Error en el tipo de estrella para separar por grupos.')
-
+# Initialize the plot
 fig = plt.figure()
 ax = plt.axes()
-
 fig2 = plt.figure()
 ax2 = plt.axes()
-
 ax.set_xlabel('Phase')
 ax.set_ylabel('Mag')
 ax.invert_yaxis()
