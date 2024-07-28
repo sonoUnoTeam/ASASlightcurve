@@ -148,19 +148,19 @@ def reproduction(camera1, camera2, camera1text, camera2text, wav_path):
 
 if starType == 'CGCas':
     ax.set_title('CG-Cas-Cepheid Camera bd')
-    ax2.set_title('CG-Cas-Cepheid Camera bc')
+    ax.set_title('CG-Cas-Cepheid Camera bc')
     ax.scatter(bd_toplot['hjd'], bd_toplot['mag'], marker='.', c='#CF3476', label='bd')
-    ax2.scatter(bc_toplot['hjd'], bc_toplot['mag'], marker='.', c='#E59866', label='bc')
-    plot_path = 'data/galaxy-stars/light-curves/Cefeida/CGCas/cepheid_sonouno.png'
-    wav_path = 'data/galaxy-stars/light-curves/Cefeida/CGCas/cepheid_sonouno.wav'
+    ax.scatter(bc_toplot['hjd'], bc_toplot['mag'], marker='.', c='#E59866', label='bc')
+    plot_path = 'data/light-curves/Cefeida/CGCas/cepheid_sonouno.png'
+    wav_path = 'data/light-curves/Cefeida/CGCas/cepheid_sonouno_bisound.wav'
     reproduction(bd_toplot, bc_toplot, 'bd', 'bc', wav_path)
     
 elif starType == 'RWPhe':
     ax.set_title('RW-Phe-Eclipsing Binary')
     ax.scatter(be_toplot['hjd'], be_toplot['mag'], marker='.', c='k', label='be')
     ax.scatter(bf_toplot['hjd'], bf_toplot['mag'], marker='.', c='g', label='bf')
-    plot_path = 'data/galaxy-stars/light-curves/BEclipsante/RWPhe/eclipsante_sonouno.png'
-    wav_path = 'data/galaxy-stars/light-curves/BEclipsante/RWPhe/eclipsante_sonouno.wav'
+    plot_path = 'data/light-curves/BEclipsante/RWPhe/eclipsante_sonouno.png'
+    wav_path = 'data/light-curves/BEclipsante/RWPhe/eclipsante_sonouno_bisound.wav'
     reproduction(be_toplot, bf_toplot, 'be', 'bf', wav_path)
 
 elif starType == 'V0748Cep':
